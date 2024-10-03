@@ -13,6 +13,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.password-input {
+  display: flex;
+  align-items: center;
+}
+
+
+
+.password-input__icon {
+  cursor: pointer;
+}
+
 /* a {
   font-weight: 500;
   color: #646cff;
