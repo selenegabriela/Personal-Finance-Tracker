@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { registerUser } from "../services/auth";
+import { useNavigate } from 'react-router-dom';
 
 const validate = (input) => {
     const errors = {}
     const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W]).{8,}$/;
 
-    if(input.name.length < 4) errors.name = 'Name should be at least 3 characters long.';
+    if(input.name.length < 3) errors.name = 'Name should be at least 3 characters long.';
     if(!regexEmail.test(input.email)) errors.email = 'Invalid email'
     if(!regexPassword.test(input.password)) errors.password = 'The password must be at least 8 characters long, including a number, an uppercase letter, a lowercase letter, and a special character.'
     return errors;
 }
 
 const Register = () => {
+    const navigate = useNavigate()
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [errors, setErrors] = useState({})
     const [input,setInput] = useState({
@@ -36,7 +39,13 @@ const Register = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
+        const {name,email,password} = input
+        const data = await registerUser(name,email,password)
 
+        if (data.token) {
+            navigate('/login'); // Redirige al login después de registrarse
+        }
+        console.log(data.token);
     }
 
     return(
