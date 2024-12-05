@@ -7,17 +7,15 @@ export const registerUser = async(name, email, password) => {
         });
     
     if (!response.ok) {
-        const errorData = await response.json(); // Intenta obtener los detalles del error
+        const errorData = await response.json(); 
         throw new Error(errorData.message || 'Login failed');
     }
     
     const data = await response.json();
     return data;
-    } catch (error)   
-    {
-        console.error('Error al registrar usuario:', error);
-        // Aquí puedes manejar el error de forma más específica, por ejemplo, mostrar un mensaje al usuario
-        throw error; // Re-lanzamos el error para que pueda ser capturado en niveles superiores
+    } catch (error) {
+        console.error('Error to register user:', error.message);
+        throw error; 
     }
 }
 

@@ -12,7 +12,7 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [password, setPassword] = useState('')
-    const [error, setError] = useState(''); // State to handle errors
+    const [error, setError] = useState(''); 
     
 
     const handleSubmit = async (e) => {
@@ -21,14 +21,14 @@ const Login = () => {
         try {
             const data = await userLogin(email, password);
             if (data.token) {
-                login(data.token); // Autenticar al usuario
-                navigate('/dashboard'); // Redirigir al usuario
+                login(data.token);
+                navigate('/dashboard');
             } else {
                 console.error('No token received:', data);
             }
         } catch (error) {
-            console.error('Login error:', error); // Capturar y mostrar el error
-            setError(error.message); // Mostrar el mensaje de error en el frontend
+            console.error('Login error:', error); 
+            setError(error.message); 
         }
     };
     
