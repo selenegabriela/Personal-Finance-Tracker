@@ -7,10 +7,14 @@ Modal.setAppElement('#root')
 const IncomeModal = ({isOpen, onClose, onSave}) => {
     const [amount, setAmount] = useState('')
     const [source, setSource] = useState('')
-    
+    const [recurring, setRecurring] = useState(false);
+
+    const handleCheckboxChange = e => {
+        setRecurring(e.target.checked)
+    }
     const handleSubmit = async(e) => {
         e.preventDefault()
-        await onSave({amount,source})
+        await onSave({amount,source,recurring})
         onClose();
     }
     return (
@@ -31,6 +35,14 @@ const IncomeModal = ({isOpen, onClose, onSave}) => {
                     onChange={e => setSource(e.target.value)}
                     required
                 />
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={recurring}
+                        onChange={handleCheckboxChange}   
+                    />
+                    Montly recurring income
+                </label>
                 <button type="submit">Save</button>
             </form>
         </Modal>

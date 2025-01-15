@@ -8,6 +8,7 @@ const ExpenseModal = ({isOpen, onClose, onSave}) => {
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         await onSave({amount,category});
@@ -32,7 +33,7 @@ const ExpenseModal = ({isOpen, onClose, onSave}) => {
                     onChange={e => setCategory(e.target.value)}
                     required
                 />
-
+                <button type="submit">Save</button>
             </form>
             
 
