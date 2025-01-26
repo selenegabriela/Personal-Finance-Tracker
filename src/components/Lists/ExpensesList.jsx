@@ -1,9 +1,25 @@
 
-import { removeExpense } from "../../services/dashboard";
+import { useState } from "react";
+import { removeExpense  } from "../../services/dashboard";
+import EditExpenseModal from "../Modals/EditExpenseModal";
 
 const ExpensesList = ({expense,auth,getAllExpenses,fetchDashboardData}) => {
-    
+    const [isEditExpenseModalOpen,setIsEditExpenseModalOpen] = useState(false)
     const {amount, category, date, _id} = expense;
+
+    const handleEditExpense = async(editedExpense) => {
+        try {
+            const data = await updateExpense(editedExpense,_id,auth)
+
+            if(data){
+                await fetchDashboardData()
+                await getAllExpenses()                
+            }
+        } catch (err) {
+            console.error('Adding income error:', err);
+            //setError(err.message);            
+        }
+    }
     const handleRemoveExpense = async() => {
         const confirmRemove = window.confirm('Are you sure you want to delete this expense?')
 
@@ -32,9 +48,15 @@ const ExpensesList = ({expense,auth,getAllExpenses,fetchDashboardData}) => {
     console.log('props:',expense);
     return (
         <div>
+            <EditExpenseModal
+                expense = {expense}
+                isOpen = {isEditExpenseModalOpen}
+                onClose={()=>setIsEditExpenseModalOpen(false)}
+                onSave={handleEditExpense}
+            />
             <div>{category}: ${amount}.00</div>
             <div>Added date: {formattedDate}</div>
-            <button>Edit</button>
+            <button onClick={()=>setIsEditExpenseModalOpen(true)}>Edit</button>
             <button onClick={() => handleRemoveExpense()}>Remove</button>
             <br />
         </div>
