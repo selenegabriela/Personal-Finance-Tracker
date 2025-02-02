@@ -1,29 +1,49 @@
-import {useState} from 'react';
+import {useState,useContext} from 'react';
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
+import { updateBudgetGoals } from '../../services/dashboard';
+import { AuthContext } from '../../context/AuthContext';
 
 Modal.setAppElement('#root');
 
-const BudgetGoalModal = ({isOpen,onClose,onSave}) => {
-    const options = ['daily', 'weekly', 'monthly', 'yearly'];
+const BudgetGoalModal = ({isOpen,onClose,onSave,dataBudgetGoals,fetchDashboardData}) => {
+    const { auth } = useContext(AuthContext);
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
-    const [period, setPeriod] = useState('');
 
-    const handleChange = (event) => {
-        const value = event.target.value;
-        setPeriod(value);
+    const currentDate = new Date()
+    const currentMonth = currentDate.getMonth()
+    const currentYear = currentDate.getFullYear()
 
-      };
-    
+    const normalizeText = (text) => text.trim().toLowerCase();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await onSave({amount,category,period});
+        const normalizedCategory = normalizeText(category);
+        const foundGoal = dataBudgetGoals?.find(goal => normalizeText(goal.category) === normalizedCategory && currentYear === new Date(goal.date).getFullYear() && currentMonth === new Date(goal.date).getMonth());
+
+        if (foundGoal) {
+          const confirmEdit = window.confirm(`The category "${foundGoal.category}" already exists for this month with a budget of ${foundGoal.amount}. Do you want to edit it with the new amount?`);
+
+
+          if (confirmEdit) {
+            const {category} = foundGoal
+            const data = await updateBudgetGoals({amount,category},foundGoal._id,auth)
+            if(data) {
+              await fetchDashboardData()
+          } else {
+              console.log('Error adding income')
+          }
+            onClose();
+            return
+          }
+        }
+        await onSave({amount,category});
         onClose();
     }
 
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose}>
+            <button onClick={()=>onClose()}>X</button>
             <h2>Add Budget</h2>
             <form onSubmit={handleSubmit}>
                 <input
@@ -40,21 +60,6 @@ const BudgetGoalModal = ({isOpen,onClose,onSave}) => {
                     onChange={e => setCategory(e.target.value)}
                     required
                 />
-                <select
-                  id="period"
-                  value={period}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="" disabled>
-                    -- Choose an option --
-                  </option>
-                  {options.map((option) => (
-                    <option key={option} value={option}>
-                      {option.charAt(0).toUpperCase() + option.slice(1)}
-                    </option>
-                  ))}
-                </select>
                 <button type="submit">Save</button>
             </form>
             

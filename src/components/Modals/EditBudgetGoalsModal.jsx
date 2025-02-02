@@ -1,26 +1,31 @@
-import {useState} from 'react';
+import { useState,useEffect } from "react";
 import Modal from 'react-modal';
-import PropTypes from 'prop-types';
 
 Modal.setAppElement('#root');
 
-const ExpenseModal = ({isOpen, onClose, onSave}) => {
+const EditBudgetGoalModal = ({isOpen,onClose,onSave,budgetGoal}) => {
+    const options = ['daily', 'weekly', 'monthly', 'yearly'];
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await onSave({amount,category});
-        onClose();
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        await onSave({amount,category})
+        onClose()
     }
 
-    return (
+
+    useEffect(()=>{
+        setAmount(budgetGoal.amount)
+        setCategory(budgetGoal.category)
+    },[budgetGoal])
+
+    return(
         <Modal isOpen={isOpen} onRequestClose={onClose}>
             <button onClick={()=>onClose()}>X</button>
-            <h2>Add Expense</h2>
-            <form onSubmit={handleSubmit}>
-                <input
+            <h2>Edit budgetGoal</h2>
+            <form onSubmit={(e)=>handleSubmit(e)}>
+            <input
                     type="number"
                     placeholder='Amount'
                     value={amount}
@@ -36,16 +41,8 @@ const ExpenseModal = ({isOpen, onClose, onSave}) => {
                 />
                 <button type="submit">Save</button>
             </form>
-            
-
         </Modal>
     )
 }
 
-ExpenseModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired, 
-};
-
-export default ExpenseModal
+export default EditBudgetGoalModal

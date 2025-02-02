@@ -20,6 +20,7 @@ const EditExpenseModal = ({isOpen,onClose,onSave,expense}) => {
 
     return(
         <Modal isOpen={isOpen} onRequestClose={onClose}>
+            <button onClick={()=>onClose()}>X</button>
             <h2>Edit expense</h2>
             <form onSubmit={(e)=>handleSubmit(e)}>
             <input

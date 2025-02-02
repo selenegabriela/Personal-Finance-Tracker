@@ -1,27 +1,26 @@
 
 import { useState } from "react";
-import { removeBudgetGoal  } from "../../services/dashboard";
-//import EditBudgetGoalsModal from "../Modals/EditBudgetGoalsModal";
+import { removeBudgetGoal,updateBudgetGoals  } from "../../services/dashboard";
+import EditBudgetGoalsModal from "../Modals/EditBudgetGoalsModal";
 
 const BudgetGoalsList = ({budgetGoal,auth,getAllBudgetGoals,fetchDashboardData}) => {
     const [isEditBudgetGoalsModalOpen,setIsEditBudgetGoalsModalOpen] = useState(false)
-    const {amount, category, date, period, _id} = budgetGoal;
+    const {amount, category, date, _id} = budgetGoal;
 
-    console.log('BUTGETTTTTT',budgetGoal);
 
-    // const handleEditBudgetGoals = async(editedBudgetGoals) => {
-    //     try {
-    //         const data = await updateBudgetGoals(editedBudgetGoals,_id,auth)
+    const handleEditBudgetGoals = async(editedBudgetGoals) => {
+        try {
+            const data = await updateBudgetGoals(editedBudgetGoals,_id,auth)
 
-    //         if(data){
-    //             await fetchDashboardData()
-    //             await getAllBudgetGoals()                
-    //         }
-    //     } catch (err) {
-    //         console.error('Adding income error:', err);
-    //         //setError(err.message);            
-    //     }
-    // }
+            if(data){
+                await fetchDashboardData()
+                await getAllBudgetGoals()                
+            }
+        } catch (err) {
+            console.error('Adding income error:', err);
+            //setError(err.message);            
+        }
+    }
     const handleRemoveBudgetGoal = async() => {
         const confirmRemove = window.confirm('Are you sure you want to delete this budgetGoals?')
 
@@ -50,14 +49,13 @@ const BudgetGoalsList = ({budgetGoal,auth,getAllBudgetGoals,fetchDashboardData})
     console.log('props:',budgetGoal);
     return (
         <div>
-            {/* <EditBudgetGoalsModal
-                budgetGoals = {budgetGoals}
+            <EditBudgetGoalsModal
+                budgetGoal = {budgetGoal}
                 isOpen = {isEditBudgetGoalsModalOpen}
                 onClose={()=>setIsEditBudgetGoalsModalOpen(false)}
                 onSave={handleEditBudgetGoals}
-            /> */}
+            />
             <div>{category}: ${amount}.00</div>
-            <div>period: ${period}</div>
             <div>Added date: {formattedDate}</div>
             <button onClick={()=>setIsEditBudgetGoalsModalOpen(true)}>Edit</button>
             <button onClick={() => handleRemoveBudgetGoal()}>Remove</button>

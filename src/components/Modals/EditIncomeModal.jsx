@@ -25,6 +25,7 @@ const EditIncomeModal = ({isOpen,onClose,onSave,income}) => {
 
     return(
         <Modal isOpen={isOpen} onRequestClose={onClose}>
+            <button onClick={()=>onClose()}>X</button>
             <h2>Edit income</h2>
             <form onSubmit={(e)=>handleSubmit(e)}>
             <input

@@ -19,6 +19,7 @@ const IncomeModal = ({isOpen, onClose, onSave}) => {
     }
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose}>
+            <button onClick={()=>onClose()}>X</button>
             <h2>Add Income</h2>
             <form onSubmit={handleSubmit}>
                 <input

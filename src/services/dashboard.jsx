@@ -106,6 +106,24 @@ export const updateIncome = async(incomeData,id,auth) => {
         throw error;
     }
 }
+export const updateBudgetGoals = async(BudgetGoal,id,auth) => {
+    try {
+        const response = await fetch(`http://localhost:5000/api/BudgetGoal/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
+            body: JSON.stringify(BudgetGoal),
+        })
+        if (!response.ok) {
+            const errorData = await response.json(); 
+            throw new Error(errorData.message || 'Editing budget goal failed');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error adding budget goal', error.message);
+        throw error;
+    }
+}
 
 export const getExpenses = async(auth) => {
     try {
@@ -180,9 +198,25 @@ export const removeBudgetGoal = async(auth,id) => {
     }
 }
 
-export const getDashboardData = async(auth) => {
+export const getDashboardData = async(auth,numberMonth,year) => {
     try {
-        const response = await fetch('http://localhost:5000/api/dashboard',{
+        const monthsOfTheYear = {
+            'January': 0,
+            'February': 1,
+            'March': 2,
+            'April': 3,
+            'May': 4,
+            'June': 5,
+            'July': 6,
+            'August': 7,
+            'September': 8,
+            'October': 9,
+            'November': 10,
+            'December': 11
+        };
+        const month = monthsOfTheYear[numberMonth]
+
+        const response = await fetch(`http://localhost:5000/api/dashboard?month=${month+1}&year=${year}`,{
             headers: { Authorization: `Bearer ${auth}` },
         })
         const data = await response.json();
