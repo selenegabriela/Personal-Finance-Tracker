@@ -1,3 +1,18 @@
+const monthsOfTheYear = {
+    'January': 0,
+    'February': 1,
+    'March': 2,
+    'April': 3,
+    'May': 4,
+    'June': 5,
+    'July': 6,
+    'August': 7,
+    'September': 8,
+    'October': 9,
+    'November': 10,
+    'December': 11
+};
+
 export const addIncome = async(incomeData,auth) => {
 
     try {
@@ -125,9 +140,11 @@ export const updateBudgetGoals = async(BudgetGoal,id,auth) => {
     }
 }
 
-export const getExpenses = async(auth) => {
+export const getExpenses = async(auth,numberMonth,year) => {
+    
     try {
-        const response = await fetch('http://localhost:5000/api/expenses', {
+        const month = monthsOfTheYear[numberMonth]
+        const response = await fetch(`http://localhost:5000/api/expenses?month=${month+1}&year=${year}`, {
             headers: { Authorization: `Bearer ${auth}` },
         })
 
@@ -200,20 +217,6 @@ export const removeBudgetGoal = async(auth,id) => {
 
 export const getDashboardData = async(auth,numberMonth,year) => {
     try {
-        const monthsOfTheYear = {
-            'January': 0,
-            'February': 1,
-            'March': 2,
-            'April': 3,
-            'May': 4,
-            'June': 5,
-            'July': 6,
-            'August': 7,
-            'September': 8,
-            'October': 9,
-            'November': 10,
-            'December': 11
-        };
         const month = monthsOfTheYear[numberMonth]
 
         const response = await fetch(`http://localhost:5000/api/dashboard?month=${month+1}&year=${year}`,{

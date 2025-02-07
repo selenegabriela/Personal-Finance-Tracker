@@ -9,6 +9,7 @@ import ExpensesList from '../components/Lists/ExpensesList';
 import IncomesList from '../components/Lists/IncomesList';
 import BudgetGoalsList from '../components/Lists/BudgetGoalsList';
 import BudgetGoalModal from '../components/Modals/BudgetGoalModal';
+import MonthAndYearModal from '../components/Modals/MonthAndYearModal';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -21,9 +22,9 @@ const Dashboard = () => {
     const [dataIncomes, setDataIncomes] = useState([]);
     const [dataBudgetGoals, setDataBudgetGoals] = useState([]);
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+    const [isMonthAndYearModalOpen, setIsMonthAndYearModalOpen] = useState(false);
     const [isBudgetGoalModalOpen, setIsBudgetGoalModalOpen] = useState(false);
     const [error, setError] = useState('');
-
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const years = [2024, 2025];
     const [currentMonth, setCurrentMonth] = useState(months[new Date().getMonth()]);
@@ -31,33 +32,26 @@ const Dashboard = () => {
 
     const fetchDashboardData = useCallback(async () => {
         try {
+
             const data = await getDashboardData(auth, currentMonth, currentYear);
+            console.log('DATA ', data);
             if (data) setDataDashboard(data);
         } catch (err) {
             console.error('Error fetching dashboard data:', err);
             setError(err.message);
         }
-    }, [auth, currentMonth, currentYear]);
+    }, [auth,currentMonth,currentYear]);
 
-    const handleOnChangeMonth = async (e) => {
-        setCurrentMonth(e.target.value);
-        await fetchDashboardData();
-    };
-
-    const handleOnChangeYear = async (e) => {
-        setCurrentYear(e.target.value);
-        await fetchDashboardData();
-    };
 
     const getAllExpenses = useCallback(async () => {
         try {
-            const data = await getExpenses(auth);
+            const data = await getExpenses(auth, currentMonth, currentYear);
             if (data) setDataExpenses(data);
         } catch (err) {
             console.error('Error fetching expenses data:', err);
             setError(err.message);
         }
-    }, [auth]);
+    }, [auth,currentMonth,currentYear]);
 
     const getAllIncomes = useCallback(async () => {
         try {
@@ -78,12 +72,13 @@ const Dashboard = () => {
             setError(err.message);
         }
     }, [auth]);
-
+    
     const handleAddIncome = async (income) => {
         try {
             const data = await addIncome(income, auth);
             if (data) {
                 await fetchDashboardData();
+                await getAllExpenses();
             } else {
                 console.log('Error adding income');
             }
@@ -123,6 +118,28 @@ const Dashboard = () => {
         }
     };
 
+    // useEffect(() => {
+
+    //     if(auth){
+
+            
+    //         let isMounted = true; 
+            
+    //         const fetchData = async () => {
+    //             const data = await fetchDashboardData(); 
+    //             if (isMounted) {
+    //                 //setDataDashboard(data)
+    //             }
+    //         };
+        
+    //         fetchData();
+        
+    //         return () => {
+    //             isMounted = false;
+    //         };
+    //     }
+    // }, [currentMonth, currentYear,fetchDashboardData,auth]);
+
     useEffect(() => {
         if (auth) {
             fetchDashboardData();
@@ -143,16 +160,21 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (auth) {
+            console.log("🔄 Ejecutando getAllBudgetGoals...");
             getAllBudgetGoals();
         }
     }, [auth, getAllBudgetGoals]);
 
+
     // Memoize chartData to avoid recalculating on every render
     const chartData = useMemo(() => {
-        if (!dataDashboard || !dataBudgetGoals) return null;
+        
+        if (!dataDashboard || !Array.isArray(dataDashboard.budgetGoals)) {
+            return null;
+        }
 
-        const categories = dataBudgetGoals.map(goal => goal.category);
-        const budgets = dataBudgetGoals.map(goal => goal.amount);
+        const categories = dataDashboard.budgetGoals.map(goal => goal.category);
+        const budgets = dataDashboard.budgetGoals.map(goal => goal.amount);
         const expenses = categories.map(category => dataDashboard.expensesByCategory?.[category] || 0);
 
         return {
@@ -170,27 +192,31 @@ const Dashboard = () => {
                 }
             ]
         };
-    }, [dataDashboard, dataBudgetGoals]);
+    }, [dataDashboard]);
 
     return (
         <div>
             <h2>Dashboard</h2>
             <p>Welcome to your Dashboard</p>
 
-            <h3>Total budget: {dataDashboard.totalBudget || 0}</h3>
+            <h3>Total budget: {dataDashboard?.totalBudget || 0}</h3>
+            <h3>Period: {`${currentMonth || 0} ${currentYear || 0} `}</h3>
             <button onClick={() => setIsIncomeModalOpen(true)}>Add Income</button>
             <button onClick={() => setIsExpenseModalOpen(true)}>Add Expense</button>
             <button onClick={() => setIsBudgetGoalModalOpen(true)}>Add Budget Goal</button>
-            <select value={currentMonth} onChange={handleOnChangeMonth}>
-                {months.map((month, i) => (
-                    <option value={month} key={i}>{month}</option>
-                ))}
-            </select>
-            <select value={currentYear} onChange={handleOnChangeYear}>
-                {years.map((year, i) => (
-                    <option value={year} key={i}>{year}</option>
-                ))}
-            </select>
+            <button onClick={() => setIsMonthAndYearModalOpen(true)}>Change period</button>
+
+            <MonthAndYearModal 
+                onSave ={fetchDashboardData}
+                setCurrentMonth ={setCurrentMonth}
+                setCurrentYear ={setCurrentYear}
+                currentMonth ={currentMonth}
+                currentYear ={currentYear}
+                months = {months}
+                years ={years}
+                onClose={() => setIsMonthAndYearModalOpen(false)}
+                isOpen={isMonthAndYearModalOpen}
+            />
 
             <IncomeModal
                 isOpen={isIncomeModalOpen}
