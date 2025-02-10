@@ -34,9 +34,10 @@ export const addIncome = async(incomeData,auth) => {
     }
 }
 
-export const getIncomes = async(auth) => {
+export const getIncomes = async(auth,numberMonth,year) => {
     try {
-        const response = await fetch('http://localhost:5000/api/incomes', {
+        const month = monthsOfTheYear[numberMonth]
+        const response = await fetch(`http://localhost:5000/api/incomes?month=${month+1}&year=${year}`, {
             headers: { Authorization: `Bearer ${auth}` },
         })
 
@@ -231,9 +232,10 @@ export const getDashboardData = async(auth,numberMonth,year) => {
     }
 }  
 
-export const getBudgetGoal = async(auth) => {
+export const getBudgetGoal = async(auth,numberMonth,year) => {
     try {
-        const response = await fetch('http://localhost:5000/api/budgetGoal',{
+        const month = monthsOfTheYear[numberMonth]
+        const response = await fetch(`http://localhost:5000/api/budgetGoal?month=${month+1}&year=${year}`,{
             headers: { Authorization: `Bearer ${auth}` },
         })
         const data = await response.json();

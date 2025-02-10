@@ -15,7 +15,7 @@ import MonthAndYearModal from '../components/Modals/MonthAndYearModal';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
-    const { auth } = useContext(AuthContext);
+    const { auth, years, monthJoined } = useContext(AuthContext);
     const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);
     const [dataDashboard, setDataDashboard] = useState({});
     const [dataExpenses, setDataExpenses] = useState([]);
@@ -25,8 +25,8 @@ const Dashboard = () => {
     const [isMonthAndYearModalOpen, setIsMonthAndYearModalOpen] = useState(false);
     const [isBudgetGoalModalOpen, setIsBudgetGoalModalOpen] = useState(false);
     const [error, setError] = useState('');
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const years = [2024, 2025];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const lastMonth = months[new Date().getMonth()+1]
     const [currentMonth, setCurrentMonth] = useState(months[new Date().getMonth()]);
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
@@ -55,23 +55,23 @@ const Dashboard = () => {
 
     const getAllIncomes = useCallback(async () => {
         try {
-            const data = await getIncomes(auth);
+            const data = await getIncomes(auth, currentMonth, currentYear);
             if (data) setDataIncomes(data);
         } catch (err) {
             console.error('Error fetching incomes data:', err);
             setError(err.message);
         }
-    }, [auth]);
+    }, [auth,currentMonth, currentYear]);
 
     const getAllBudgetGoals = useCallback(async () => {
         try {
-            const data = await getBudgetGoal(auth);
+            const data = await getBudgetGoal(auth, currentMonth, currentYear);
             if (data) setDataBudgetGoals(data);
         } catch (err) {
             console.error('Error fetching budget goals data:', err);
             setError(err.message);
         }
-    }, [auth]);
+    }, [auth,currentMonth, currentYear]);
     
     const handleAddIncome = async (income) => {
         try {
@@ -165,7 +165,6 @@ const Dashboard = () => {
         }
     }, [auth, getAllBudgetGoals]);
 
-
     // Memoize chartData to avoid recalculating on every render
     const chartData = useMemo(() => {
         
@@ -216,6 +215,8 @@ const Dashboard = () => {
                 years ={years}
                 onClose={() => setIsMonthAndYearModalOpen(false)}
                 isOpen={isMonthAndYearModalOpen}
+                monthJoined={monthJoined}
+                lastMonth={lastMonth}
             />
 
             <IncomeModal
@@ -227,6 +228,7 @@ const Dashboard = () => {
                 isOpen={isExpenseModalOpen}
                 onClose={() => setIsExpenseModalOpen(false)}
                 onSave={handleAddExpense}
+                dataBudgetGoals={dataBudgetGoals}
             />
             <BudgetGoalModal
                 dataBudgetGoals={dataBudgetGoals}

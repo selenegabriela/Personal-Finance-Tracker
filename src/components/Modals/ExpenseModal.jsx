@@ -4,15 +4,17 @@ import PropTypes from 'prop-types';
 
 Modal.setAppElement('#root');
 
-const ExpenseModal = ({isOpen, onClose, onSave}) => {
+const ExpenseModal = ({isOpen, onClose, onSave, dataBudgetGoals}) => {
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
-
+    console.log('dataBurget;', dataBudgetGoals);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         await onSave({amount,category});
         onClose();
+        setAmount('')
+        setCategory('')
     }
 
     return (
@@ -32,8 +34,14 @@ const ExpenseModal = ({isOpen, onClose, onSave}) => {
                     placeholder='Category'
                     value={category}
                     onChange={e => setCategory(e.target.value)}
+                    list="category-suggestions"
                     required
                 />
+                <datalist id="category-suggestions">
+                    {dataBudgetGoals?.map((budgetGoal,i) => (
+                        <option key={i} value={budgetGoal.category} />
+                    ))}
+                </datalist>
                 <button type="submit">Save</button>
             </form>
             

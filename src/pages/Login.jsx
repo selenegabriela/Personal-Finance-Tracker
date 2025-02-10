@@ -8,7 +8,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
     const navigate = useNavigate()
-    const {login} = useContext(AuthContext)
+    const {login, getJoinInfo} = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [password, setPassword] = useState('')
@@ -25,6 +25,9 @@ const Login = () => {
                 navigate('/dashboard');
             } else {
                 console.error('No token received:', data);
+            }
+            if(data.years && data.monthJoined) {
+                getJoinInfo(data.years,data.monthJoined)
             }
         } catch (error) {
             console.error('Login error:', error); 
