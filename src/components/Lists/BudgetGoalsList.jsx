@@ -7,7 +7,6 @@ const BudgetGoalsList = ({budgetGoal,auth,getAllBudgetGoals,fetchDashboardData})
     const [isEditBudgetGoalsModalOpen,setIsEditBudgetGoalsModalOpen] = useState(false)
     const {amount, category, date, _id} = budgetGoal;
 
-
     const handleEditBudgetGoals = async(editedBudgetGoals) => {
         try {
             const data = await updateBudgetGoals(editedBudgetGoals,_id,auth)
@@ -46,7 +45,6 @@ const BudgetGoalsList = ({budgetGoal,auth,getAllBudgetGoals,fetchDashboardData})
         month: '2-digit',
         year: 'numeric'
       });
-    console.log('props:',budgetGoal);
     return (
         <div>
             <EditBudgetGoalsModal
@@ -55,10 +53,14 @@ const BudgetGoalsList = ({budgetGoal,auth,getAllBudgetGoals,fetchDashboardData})
                 onClose={()=>setIsEditBudgetGoalsModalOpen(false)}
                 onSave={handleEditBudgetGoals}
             />
+            <center style={{padding: '10px',fontWeight: 'bold', borderRadius: "5px", border: "1px solid #c7c417", margin: '0 auto'}}>
             <div>{category}: ${amount}.00</div>
             <div>Added date: {formattedDate}</div>
-            <button onClick={()=>setIsEditBudgetGoalsModalOpen(true)}>Edit</button>
-            <button onClick={() => handleRemoveBudgetGoal()}>Remove</button>
+            <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
+                <button className="blue-button" onClick={()=>setIsEditBudgetGoalsModalOpen(true)}>Edit</button>
+                <button className="blue-button red-button" onClick={() => handleRemoveBudgetGoal()}>Remove</button>
+            </div>
+            </center>    
             <br />
         </div>
     )

@@ -22,13 +22,11 @@ const MonthAndYearModal = ({onSave,onClose,isOpen,setCurrentMonth,setCurrentYear
         }
 
         useEffect(() => {
-            console.log('years', years);
             setShowMonths(months.filter((month,i) => {
                 if(currentYear>=years[0] && currentYear<=years[years.length-1]){
-                    if(currentYear===years[0].toString()){
+                    if(currentYear.toString()===years[0].toString()){
                         return i>=months.indexOf(monthJoined )
-                    } else if (currentYear===years[years.length-1].toString()) {
-                        console.log(months.indexOf(lastMonth ), i);
+                    } else if (currentYear.toString()===years[years.length-1].toString()) {
                         return i<months.indexOf(lastMonth )
                     } else {
                         return true
@@ -39,22 +37,25 @@ const MonthAndYearModal = ({onSave,onClose,isOpen,setCurrentMonth,setCurrentYear
 
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose}>
-            <button onClick={()=>onClose()}>X</button>
-            <h2>Change period</h2>
-            <form onSubmit={(e)=>onSubmitMonthYear(e)}>
+            <div className="login-container modals">
 
-                <select value={currentMonth} onChange={handleOnChangeMonth}>
-                    {showMonths?.map((month, i) => (
-                        <option value={month} key={i}>{month}</option>
-                    ))}
-                </select>
-                <select value={currentYear} onChange={handleOnChangeYear}>
-                    {years && years.map((year, i) => (
-                        <option value={year} key={i}>{year}</option>
-                    ))}
-                </select>
-                <button type='submit'>Save</button>
-            </form>
+                <button className="cross" onClick={()=>onClose()}>X</button>
+                <h2>Change period</h2>
+                <form className='form' onSubmit={(e)=>onSubmitMonthYear(e)}>
+
+                    <select value={currentMonth} onChange={handleOnChangeMonth}>
+                        {showMonths?.map((month, i) => (
+                            <option value={month} key={i}>{month}</option>
+                        ))}
+                    </select>
+                    <select value={currentYear} onChange={handleOnChangeYear}>
+                        {years && years.map((year, i) => (
+                            <option value={year} key={i}>{year}</option>
+                        ))}
+                    </select>
+                    <button className="save" type='submit'>Save</button>
+                </form>
+            </div>
         </Modal>
     )
 }

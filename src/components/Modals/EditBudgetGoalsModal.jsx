@@ -22,25 +22,28 @@ const EditBudgetGoalModal = ({isOpen,onClose,onSave,budgetGoal}) => {
 
     return(
         <Modal isOpen={isOpen} onRequestClose={onClose}>
-            <button onClick={()=>onClose()}>X</button>
-            <h2>Edit budgetGoal</h2>
-            <form onSubmit={(e)=>handleSubmit(e)}>
-            <input
-                    type="number"
-                    placeholder='Amount'
-                    value={amount}
-                    onChange={e => setAmount(e.target.value)}
-                    required
-                />
+            <div className="login-container modals">
+
+                <button className="cross" onClick={()=>onClose()}>X</button>
+                <h2>Edit budgetGoal</h2>
+                <form className='form' onSubmit={(e)=>handleSubmit(e)}>
                 <input
-                    type="text"
-                    placeholder='Category'
-                    value={category}
-                    onChange={e => setCategory(e.target.value)}
-                    required
-                />
-                <button type="submit">Save</button>
-            </form>
+                        type="number"
+                        placeholder='Amount'
+                        value={amount}
+                        onChange={e => setAmount(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder='Category'
+                        value={category}
+                        onChange={e => setCategory(e.target.value)}
+                        required
+                        />
+                    <button className="save" type="submit">Save</button>
+                </form>
+            </div>
         </Modal>
     )
 }

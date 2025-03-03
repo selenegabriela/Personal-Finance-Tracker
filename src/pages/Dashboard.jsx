@@ -29,12 +29,25 @@ const Dashboard = () => {
     const lastMonth = months[new Date().getMonth()+1]
     const [currentMonth, setCurrentMonth] = useState(months[new Date().getMonth()]);
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-
+    const buttonStyle = {
+        backgroundColor: '#191818', 
+        border: "none",
+        padding: "8px 12px",
+        margin: "5px",
+        borderRadius: "5px",
+        color: "white",
+        cursor: "pointer",
+        transition: "all 0.2s ease-in-out",
+      };
+      const headerStyle = {
+        top: 0,
+        padding: "10px",
+        backgroundColor: '#242424'
+    };
     const fetchDashboardData = useCallback(async () => {
         try {
 
             const data = await getDashboardData(auth, currentMonth, currentYear);
-            console.log('DATA ', data);
             if (data) setDataDashboard(data);
         } catch (err) {
             console.error('Error fetching dashboard data:', err);
@@ -118,28 +131,7 @@ const Dashboard = () => {
         }
     };
 
-    // useEffect(() => {
-
-    //     if(auth){
-
-            
-    //         let isMounted = true; 
-            
-    //         const fetchData = async () => {
-    //             const data = await fetchDashboardData(); 
-    //             if (isMounted) {
-    //                 //setDataDashboard(data)
-    //             }
-    //         };
-        
-    //         fetchData();
-        
-    //         return () => {
-    //             isMounted = false;
-    //         };
-    //     }
-    // }, [currentMonth, currentYear,fetchDashboardData,auth]);
-
+ 
     useEffect(() => {
         if (auth) {
             fetchDashboardData();
@@ -160,7 +152,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (auth) {
-            console.log("🔄 Ejecutando getAllBudgetGoals...");
             getAllBudgetGoals();
         }
     }, [auth, getAllBudgetGoals]);
@@ -182,12 +173,12 @@ const Dashboard = () => {
                 {
                     label: 'Budget Goal',
                     data: budgets,
-                    backgroundColor: 'rgba(5, 121, 199, 0.6)',
+                    backgroundColor: 'rgb(249, 250, 240)',
                 },
                 {
                     label: 'Expenses',
                     data: expenses,
-                    backgroundColor: 'rgba(213, 29, 69, 0.6)',
+                    backgroundColor: 'rgba(213, 29, 69, 0.82)',
                 }
             ]
         };
@@ -195,15 +186,21 @@ const Dashboard = () => {
 
     return (
         <div>
-            <h2>Dashboard</h2>
-            <p>Welcome to your Dashboard</p>
+            <div style={{marginTop: '30px'}}>
 
-            <h3>Total budget: {dataDashboard?.totalBudget || 0}</h3>
-            <h3>Period: {`${currentMonth || 0} ${currentYear || 0} `}</h3>
-            <button onClick={() => setIsIncomeModalOpen(true)}>Add Income</button>
-            <button onClick={() => setIsExpenseModalOpen(true)}>Add Expense</button>
-            <button onClick={() => setIsBudgetGoalModalOpen(true)}>Add Budget Goal</button>
-            <button onClick={() => setIsMonthAndYearModalOpen(true)}>Change period</button>
+            <div style={{maxWidth: '70%', fontWeight: 'bold', borderRadius: "5px", border: "1px solid #c7c417", margin: '0 auto'}}>
+                <center>
+
+                    <h3>{`${currentMonth || 0} ${currentYear || 0} `}</h3>
+                    <h3>Total budget: {dataDashboard?.totalBudget || 0}</h3>
+                </center>
+                <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
+                    <button style={buttonStyle} onClick={() => setIsIncomeModalOpen(true)}>Add Income</button>
+                    <button style={buttonStyle} onClick={() => setIsExpenseModalOpen(true)}>Add Expense</button>
+                    <button style={buttonStyle} onClick={() => setIsBudgetGoalModalOpen(true)}>Add Budget Goal</button>
+                    <button style={buttonStyle} onClick={() => setIsMonthAndYearModalOpen(true)}>Change period</button>
+                </div>
+            </div>
 
             <MonthAndYearModal 
                 onSave ={fetchDashboardData}
@@ -238,8 +235,7 @@ const Dashboard = () => {
                 fetchDashboardData={fetchDashboardData}
             />
             {chartData && (
-                <div style={{ marginTop: '20px', maxWidth: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <h3>Budget vs Expenses</h3>
+                <center><div style={{ margin: '20px auto', maxWidth: '80%' }}>
                     <Bar
                         data={chartData}
                         options={{
@@ -250,11 +246,13 @@ const Dashboard = () => {
                             }
                         }}
                     />
-                </div>
+                </div></center>
             )}
+            </div>
+
             <div style={{ display: 'flex', justifyContent: 'space-around', overflow: 'scroll' }}>
                 <div>
-                    <h3>Expenses</h3>
+                    <center><h3 style={headerStyle}>Expenses</h3></center>
                     <div style={{ maxHeight: '350px' }}>
                         {dataExpenses.map(expense => (
                             <ExpensesList
@@ -268,7 +266,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div>
-                    <h3>Incomes</h3>
+                    <center><h3 style={headerStyle}>Incomes</h3></center>
                     <div style={{ maxHeight: '350px' }}>
                         {dataIncomes.map(income => (
                             <IncomesList
@@ -282,7 +280,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div>
-                    <h3>Budget Goals</h3>
+                    <center><h3 style={headerStyle}>Budget Goals</h3></center>
                     <div style={{ maxHeight: '350px' }}>
                         {dataBudgetGoals.map(budgetGoal => (
                             <BudgetGoalsList

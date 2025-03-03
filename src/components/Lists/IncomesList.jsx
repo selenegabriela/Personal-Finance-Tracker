@@ -46,7 +46,7 @@ const IncomesList = ({income,auth,getAllIncomes,fetchDashboardData}) => {
         month: '2-digit',
         year: 'numeric'
       });
-    console.log('props:',income);
+
     return (
         <div>
             <EditIncomeModal
@@ -55,10 +55,14 @@ const IncomesList = ({income,auth,getAllIncomes,fetchDashboardData}) => {
                 onClose={()=>setIsEditIncomeModalOpen(false)}
                 onSave={handleEditIncome}
             />
+            <center style={{padding: '10px',fontWeight: 'bold', borderRadius: "5px", border: "1px solid #c7c417", margin: '0 auto'}}>
             <div>{source}: ${amount}.00</div>
             <div>Added date: {formattedDate}</div>
-            <button onClick={()=>setIsEditIncomeModalOpen(true)}>Edit</button>
-            <button onClick={() => handleRemoveIncome()}>Remove</button>
+            <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
+                <button className="blue-button" onClick={()=>setIsEditIncomeModalOpen(true)}>Edit</button>
+                <button className="blue-button red-button" onClick={() => handleRemoveIncome()}>Remove</button>
+            </div>
+            </center>
             <br />
         </div>
     )

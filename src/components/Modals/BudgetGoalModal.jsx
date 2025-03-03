@@ -43,26 +43,29 @@ const BudgetGoalModal = ({isOpen,onClose,onSave,dataBudgetGoals,fetchDashboardDa
 
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose}>
-            <button onClick={()=>onClose()}>X</button>
-            <h2>Add Budget</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="number"
-                    placeholder='Amount'
-                    value={amount}
-                    onChange={e => setAmount(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder='Category'
-                    value={category}
-                    onChange={e => setCategory(e.target.value)}
-                    required
-                />
-                <button type="submit">Save</button>
-            </form>
-            
+            <div className="login-container modals">
+
+                <button className="cross" onClick={()=>onClose()}>X</button>
+                <h2>Add Budget</h2>
+                <form className='form' onSubmit={handleSubmit}>
+                    <input
+                        type="number"
+                        placeholder='Amount'
+                        value={amount}
+                        onChange={e => setAmount(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder='Category'
+                        value={category}
+                        onChange={e => setCategory(e.target.value)}
+                        required
+                    />
+                    <button className="save" type="submit">Save</button>
+                </form>
+                
+            </div>
 
         </Modal>
     )

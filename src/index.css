@@ -13,16 +13,153 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .password-input {
   display: flex;
   align-items: center;
 }
 
-
-
 .password-input__icon {
   cursor: pointer;
+  position: absolute;
+  right: 10px;
 }
+
+.blue-button {
+  background-color: rgb(72, 153, 207); 
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 5px;
+  color: #101002;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.red-button {
+  background-color: rgba(213, 29, 69, 0.82) !important;
+  color: white;
+}
+
+.log-reg-button {
+  background-color: #191818; 
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #c7c417
+}
+.logout-button:hover {
+  background-color: rgba(213, 29, 69, 0.82);
+  border-color: #191818; 
+
+}
+.register-login-button:hover {
+  background-color: rgb(72, 153, 207); 
+  border-color: #191818; 
+}
+
+.login-container {
+  display: flex;
+  margin: 0 auto; 
+  width: 30%;
+  border: 1px solid #c7c417;
+  height: 400px;
+  flex-direction: column;
+  padding: 20px
+}
+
+.form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px
+}
+
+.form input {
+  padding: 10px;
+
+}
+
+.form button {
+  padding: 10px;
+  margin-top: 30px;
+  background-color: #191818; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.form button:hover {
+  background-color: rgb(72, 153, 207); 
+}
+
+.password {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.password input{
+  width: 100%;
+  padding-right: 40px; /* Espacio para el botón */
+  box-sizing: border-box;
+}
+.password span{
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 1rem;
+}
+.modals {
+  margin-top: 40px;
+  background-color: #242424;
+  position: relative;
+}
+.modals button{ 
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+}
+
+.cross {
+  font-size: 14px; /* Tamaño del tache */
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(213, 29, 69, 0.82);;
+}
+
+.save {
+  background-color: rgb(72, 153, 207) !important;; 
+}
+
+.ReactModal__Content {
+  display: contents;
+}
+
+/* .ReactModal__Overlay--after-open {
+  background-color: rgba(255, 255, 255, 0.60);
+} */
 
 /* a {
   font-weight: 500;

@@ -21,8 +21,8 @@ const Navbar = () => {
     }
 
     return (
-        <div>
-            <button onClick={handleClick}>
+        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <button className={`log-reg-button ${auth ? "logout-button" : "register-login-button"}`} onClick={handleClick}>
                 {auth ? "Logout" : location === "/login" ? "Register" : "Login"}
             </button>
         </div>

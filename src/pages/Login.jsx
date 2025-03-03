@@ -38,31 +38,36 @@ const Login = () => {
 
     return(
         <div>
-            <h2>Login</h2>
-            <form onSubmit={e => handleSubmit(e)}>
-                <input 
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)} 
-                />
-                <input 
-                type={passwordVisible ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)} 
-                />
-                <span 
-                    onMouseDown={() => setPasswordVisible(true)} 
-                    onMouseUp={() => setPasswordVisible(false)} 
-                    onMouseLeave={() => setPasswordVisible(false)} // Para manejar cuando el mouse sale del ícono
-                    className="password-input__icon"
-                >
-                <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
-                </span>
-                {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if any */}
-                <button type="submit">Sign in</button>
-            </form>
+            <div className="login-container">
+                <h2>Login</h2>
+                <form className='form' onSubmit={e => handleSubmit(e)}>
+                    <input 
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)} 
+                    />
+                    <div className="password">
+                        <input 
+                        type={passwordVisible ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)} 
+                        
+                        />
+                        <span 
+                            onMouseDown={() => setPasswordVisible(true)} 
+                            onMouseUp={() => setPasswordVisible(false)} 
+                            onMouseLeave={() => setPasswordVisible(false)} // Para manejar cuando el mouse sale del ícono
+                            className="password-input__icon"
+                            >
+                        <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
+                        </span>
+                    </div>
+                    {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if any */}
+                    <button type="submit">Sign in</button>
+                </form>
+            </div>
         </div>
     )
 

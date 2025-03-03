@@ -7,7 +7,6 @@ Modal.setAppElement('#root');
 const ExpenseModal = ({isOpen, onClose, onSave, dataBudgetGoals}) => {
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
-    console.log('dataBurget;', dataBudgetGoals);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,32 +18,35 @@ const ExpenseModal = ({isOpen, onClose, onSave, dataBudgetGoals}) => {
 
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose}>
-            <button onClick={()=>onClose()}>X</button>
-            <h2>Add Expense</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="number"
-                    placeholder='Amount'
-                    value={amount}
-                    onChange={e => setAmount(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder='Category'
-                    value={category}
-                    onChange={e => setCategory(e.target.value)}
-                    list="category-suggestions"
-                    required
-                />
-                <datalist id="category-suggestions">
-                    {dataBudgetGoals?.map((budgetGoal,i) => (
-                        <option key={i} value={budgetGoal.category} />
-                    ))}
-                </datalist>
-                <button type="submit">Save</button>
-            </form>
+            <div className="login-container modals">
+
+                <button className="cross" onClick={()=>onClose()}>X</button>
+                <h2>Add Expense</h2>
+                <form className='form' onSubmit={handleSubmit}>
+                    <input
+                        type="number"
+                        placeholder='Amount'
+                        value={amount}
+                        onChange={e => setAmount(e.target.value)}
+                        required
+                        />
+                    <input
+                        type="text"
+                        placeholder='Category'
+                        value={category}
+                        onChange={e => setCategory(e.target.value)}
+                        list="category-suggestions"
+                        required
+                    />
+                    <datalist id="category-suggestions">
+                        {dataBudgetGoals?.map((budgetGoal,i) => (
+                            <option key={i} value={budgetGoal.category} />
+                        ))}
+                    </datalist>
+                    <button className="save" type="submit">Save</button>
+                </form>
             
+            </div>
 
         </Modal>
     )

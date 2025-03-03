@@ -38,7 +38,7 @@ export const AuthProvider = ({children}) => {
         const storedYears = localStorage.getItem('years')
         const arrYears = JSON.parse(storedYears)
 
-        if (arrYears.length) {
+        if (arrYears?.length) {
             setYears(arrYears);
         }
         const storedMonthJoined = localStorage.getItem('monthJoined');

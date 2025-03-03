@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { removeExpense  } from "../../services/dashboard";
+import { removeExpense,updateExpense  } from "../../services/dashboard";
 import EditExpenseModal from "../Modals/EditExpenseModal";
 
 const ExpensesList = ({expense,auth,getAllExpenses,fetchDashboardData}) => {
@@ -45,7 +45,6 @@ const ExpensesList = ({expense,auth,getAllExpenses,fetchDashboardData}) => {
         month: '2-digit',
         year: 'numeric'
       });
-    console.log('props:',expense);
     return (
         <div>
             <EditExpenseModal
@@ -54,10 +53,15 @@ const ExpensesList = ({expense,auth,getAllExpenses,fetchDashboardData}) => {
                 onClose={()=>setIsEditExpenseModalOpen(false)}
                 onSave={handleEditExpense}
             />
+            <center style={{padding: '10px',fontWeight: 'bold', borderRadius: "5px", border: "1px solid #c7c417", margin: '0 auto'}}>
+
             <div>{category}: ${amount}.00</div>
             <div>Added date: {formattedDate}</div>
-            <button onClick={()=>setIsEditExpenseModalOpen(true)}>Edit</button>
-            <button onClick={() => handleRemoveExpense()}>Remove</button>
+            <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
+                <button className="blue-button" onClick={()=>setIsEditExpenseModalOpen(true)}>Edit</button>
+                <button className="blue-button red-button" onClick={() => handleRemoveExpense()}>Remove</button>
+            </div>
+            </center>
             <br />
         </div>
     )

@@ -45,46 +45,54 @@ const Register = () => {
         if (data.token) {
             navigate('/login'); // Redirige al login después de registrarse
         }
-        console.log(data.token);
     }
 
     return(
         <div>
-            <form onSubmit={e => handleSubmit(e)}>
-                <label>User name: </label>
-                <input name='name' value={input.name} type='text' placeholder='User name' onChange={e => handleOnChange(e)}/>
-                {
-                    errors.name && <label>{errors.name}</label>
-                }
-                <label>Email: </label>
-                <input name='email' value={input.email} type='email' placeholder='Email' onChange={e => handleOnChange(e)}/>
-                {
-                    errors.email && <label>{errors.email}</label>
-                }
-                <label>Password: </label>
-                <div className="password-input">
-                    <input
-                        name="password"
-                        value={input.password}
-                        type={passwordVisible ? "text" : "password"}
-                        placeholder="Password"
-                        onChange={e => handleOnChange(e)}
-                        className="password-input__input"
-                    />
-                    <span 
-                        onMouseDown={() => setPasswordVisible(true)} 
-                        onMouseUp={() => setPasswordVisible(false)} 
-                        onMouseLeave={() => setPasswordVisible(false)} // Para manejar cuando el mouse sale del ícono
-                        className="password-input__icon"
-                    >
-                    <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
-                    </span>
-                </div>
-                {
-                    errors.password && <label>{errors.password}</label>
-                }
-                <button type="submit">Sign Up</button>
-            </form>
+            <div className="login-container">
+                <h2>Register</h2>
+                <form className='form' onSubmit={e => handleSubmit(e)}>
+                    <input 
+                    name='name' 
+                    value={input.name} 
+                    type='text' placeholder='User name' 
+                    onChange={e => handleOnChange(e)}/>
+                    {
+                        errors.name && <p style={{ color: 'red' }}>{errors.name}</p>
+                    }
+                    <input 
+                    name='email' 
+                    value={input.email} 
+                    type='email' 
+                    placeholder='Email' 
+                    onChange={e => handleOnChange(e)}/>
+                    {
+                        errors.email && <p style={{ color: 'red' }}>{errors.email}</p>
+                    }
+                    <div className="password password-input">
+                        <input
+                            name="password"
+                            value={input.password}
+                            type={passwordVisible ? "text" : "password"}
+                            placeholder="Password"
+                            onChange={e => handleOnChange(e)}
+                            className="password-input__input"
+                            />
+                        <span 
+                            onMouseDown={() => setPasswordVisible(true)} 
+                            onMouseUp={() => setPasswordVisible(false)} 
+                            onMouseLeave={() => setPasswordVisible(false)} // Para manejar cuando el mouse sale del ícono
+                            className="password-input__icon"
+                            >
+                        <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
+                        </span>
+                    </div>
+                    {
+                        errors.password && <p style={{ color: 'red' }}>{errors.password}</p>
+                    }
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
         </div>
     )
 }

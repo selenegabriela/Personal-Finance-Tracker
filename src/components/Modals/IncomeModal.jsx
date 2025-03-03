@@ -19,33 +19,36 @@ const IncomeModal = ({isOpen, onClose, onSave}) => {
     }
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose}>
-            <button onClick={()=>onClose()}>X</button>
-            <h2>Add Income</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="number"
-                    placeholder="Amount"
-                    value={amount}
-                    onChange={e => setAmount(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Source"
-                    value={source}
-                    onChange={e => setSource(e.target.value)}
-                    required
-                />
-                <label>
+            <div className="login-container modals">
+
+                <button className="cross" onClick={()=>onClose()}>X</button>
+                <h2>Add Income</h2>
+                <form className='form' onSubmit={handleSubmit}>
                     <input
-                        type="checkbox"
-                        checked={recurring}
-                        onChange={handleCheckboxChange}   
-                    />
-                    Montly recurring income
-                </label>
-                <button type="submit">Save</button>
-            </form>
+                        type="number"
+                        placeholder="Amount"
+                        value={amount}
+                        onChange={e => setAmount(e.target.value)}
+                        required
+                        />
+                    <input
+                        type="text"
+                        placeholder="Source"
+                        value={source}
+                        onChange={e => setSource(e.target.value)}
+                        required
+                        />
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={recurring}
+                            onChange={handleCheckboxChange}   
+                            />
+                        Montly recurring income
+                    </label>
+                    <button className="save" type="submit">Save</button>
+                </form>
+            </div>
         </Modal>
     )
 }

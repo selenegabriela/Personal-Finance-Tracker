@@ -224,7 +224,6 @@ export const getDashboardData = async(auth,numberMonth,year) => {
             headers: { Authorization: `Bearer ${auth}` },
         })
         const data = await response.json();
-        console.log(auth);
         return data
     } catch (error) {
         console.error('Error getting dashboard', error.message);
