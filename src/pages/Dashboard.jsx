@@ -91,7 +91,7 @@ const Dashboard = () => {
             const data = await addIncome(income, auth);
             if (data) {
                 await fetchDashboardData();
-                await getAllExpenses();
+                await getAllIncomes();
             } else {
                 console.log('Error adding income');
             }

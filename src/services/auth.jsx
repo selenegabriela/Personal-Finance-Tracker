@@ -1,6 +1,8 @@
+const api_link = 'https://personal-finance-tracker-server.onrender.com'
+
 export const registerUser = async(name, email, password) => {
     try {
-        const response = await fetch('http://localhost:5000/api/register', {
+        const response = await fetch(`${api_link}/api/register`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ name, email, password }),
@@ -21,7 +23,7 @@ export const registerUser = async(name, email, password) => {
 
 export const userLogin = async (email, password) => {
     try {
-        const response = await fetch('http://localhost:5000/api/login', {
+        const response = await fetch(`${api_link}/api/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),

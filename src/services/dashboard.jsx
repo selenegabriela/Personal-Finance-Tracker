@@ -13,10 +13,12 @@ const monthsOfTheYear = {
     'December': 11
 };
 
+const api_link = 'https://personal-finance-tracker-server.onrender.com'
+
 export const addIncome = async(incomeData,auth) => {
 
     try {
-        const response = await fetch('http://localhost:5000/api/incomes', {
+        const response = await fetch(`${api_link}/api/incomes`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
             body: JSON.stringify(incomeData)
@@ -37,7 +39,7 @@ export const addIncome = async(incomeData,auth) => {
 export const getIncomes = async(auth,numberMonth,year) => {
     try {
         const month = monthsOfTheYear[numberMonth]
-        const response = await fetch(`http://localhost:5000/api/incomes?month=${month+1}&year=${year}`, {
+        const response = await fetch(`${api_link}/api/incomes?month=${month+1}&year=${year}`, {
             headers: { Authorization: `Bearer ${auth}` },
         })
 
@@ -51,7 +53,7 @@ export const getIncomes = async(auth,numberMonth,year) => {
 
 export const addExpense = async(expenseData,auth) => {
     try {
-        const response = await fetch('http://localhost:5000/api/expenses', {
+        const response = await fetch(`${api_link}/api/expenses`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
             body: JSON.stringify(expenseData),
@@ -70,7 +72,7 @@ export const addExpense = async(expenseData,auth) => {
 
 export const addBudgetGoal = async(BudgetGoalData,auth) => {
     try {
-        const response = await fetch('http://localhost:5000/api/BudgetGoal', {
+        const response = await fetch(`${api_link}/api/BudgetGoal`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
             body: JSON.stringify(BudgetGoalData),
@@ -88,7 +90,7 @@ export const addBudgetGoal = async(BudgetGoalData,auth) => {
 }
 export const updateExpense = async(expenseData,id,auth) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/expenses/${id}`, {
+        const response = await fetch(`${api_link}/api/expenses/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
             body: JSON.stringify(expenseData),
@@ -106,7 +108,7 @@ export const updateExpense = async(expenseData,id,auth) => {
 }
 export const updateIncome = async(incomeData,id,auth) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/incomes/${id}`, {
+        const response = await fetch(`${api_link}/api/incomes/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
             body: JSON.stringify(incomeData),
@@ -124,7 +126,7 @@ export const updateIncome = async(incomeData,id,auth) => {
 }
 export const updateBudgetGoals = async(BudgetGoal,id,auth) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/BudgetGoal/${id}`, {
+        const response = await fetch(`${api_link}/api/BudgetGoal/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
             body: JSON.stringify(BudgetGoal),
@@ -145,7 +147,7 @@ export const getExpenses = async(auth,numberMonth,year) => {
     
     try {
         const month = monthsOfTheYear[numberMonth]
-        const response = await fetch(`http://localhost:5000/api/expenses?month=${month+1}&year=${year}`, {
+        const response = await fetch(`${api_link}/api/expenses?month=${month+1}&year=${year}`, {
             headers: { Authorization: `Bearer ${auth}` },
         })
 
@@ -159,7 +161,7 @@ export const getExpenses = async(auth,numberMonth,year) => {
 
 export const getExpense = async(auth,id) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/expenses/${id}`, {
+        const response = await fetch(`${api_link}/api/expenses/${id}`, {
             headers: { Authorization: `Bearer ${auth}` },
         })
 
@@ -173,7 +175,7 @@ export const getExpense = async(auth,id) => {
 
 export const removeExpense = async(auth,id) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/expenses/${id}`, {
+        const response = await fetch(`${api_link}/api/expenses/${id}`, {
             headers: { Authorization: `Bearer ${auth}` },
             method: 'DELETE'
         })
@@ -188,7 +190,7 @@ export const removeExpense = async(auth,id) => {
 
 export const removeIncome = async(auth,id) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/incomes/${id}`, {
+        const response = await fetch(`${api_link}/api/incomes/${id}`, {
             headers: { Authorization: `Bearer ${auth}` },
             method: 'DELETE'
         })
@@ -203,7 +205,7 @@ export const removeIncome = async(auth,id) => {
 
 export const removeBudgetGoal = async(auth,id) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/budgetGoal/${id}`, {
+        const response = await fetch(`${api_link}/api/budgetGoal/${id}`, {
             headers: { Authorization: `Bearer ${auth}` },
             method: 'DELETE'
         })
@@ -220,7 +222,7 @@ export const getDashboardData = async(auth,numberMonth,year) => {
     try {
         const month = monthsOfTheYear[numberMonth]
 
-        const response = await fetch(`http://localhost:5000/api/dashboard?month=${month+1}&year=${year}`,{
+        const response = await fetch(`${api_link}/api/dashboard?month=${month+1}&year=${year}`,{
             headers: { Authorization: `Bearer ${auth}` },
         })
         const data = await response.json();
@@ -234,7 +236,7 @@ export const getDashboardData = async(auth,numberMonth,year) => {
 export const getBudgetGoal = async(auth,numberMonth,year) => {
     try {
         const month = monthsOfTheYear[numberMonth]
-        const response = await fetch(`http://localhost:5000/api/budgetGoal?month=${month+1}&year=${year}`,{
+        const response = await fetch(`${api_link}/api/budgetGoal?month=${month+1}&year=${year}`,{
             headers: { Authorization: `Bearer ${auth}` },
         })
         const data = await response.json();
