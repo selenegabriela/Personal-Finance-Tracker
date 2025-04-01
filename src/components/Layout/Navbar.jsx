@@ -7,11 +7,14 @@ const Navbar = () => {
     const navigate = useNavigate()
     const location = useLocation().pathname
 
+    const logoutFunc = () => {
+        logout()
+        navigate("/login")
+    }
+
     const routes = {
-        "/dashboard": () => {
-            logout()
-            navigate("/login")
-        },
+        "/dashboard": () => logoutFunc(),
+        "/": () => logoutFunc(),
         "/register": () => navigate("/login"),
         "/login": () => navigate("/register"),
     }
